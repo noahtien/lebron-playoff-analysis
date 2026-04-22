@@ -15,4 +15,4 @@ This project analyzes LeBron James’ offensive performance across his career, c
 - tidyr
 
 ## View Full Report
-[Click here to view the full analysis](https://noahtien.github.io/lebron-playoff-analysis/)
+[Click here to view the full analysis](./Lebron-Career-Comparison.html)
