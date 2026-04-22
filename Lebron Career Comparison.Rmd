@@ -1,7 +1,6 @@
 ---
-title: "Analyzing Lebron James' Career Performance in the Regular Season and Playoffs"
+title: "Analyzing LeBron James' Career Performance in the Regular Season and Playoffs"
 output: html_document
-date: "2026-04-02"
 ---
 ## Project Overview
 This project analyzes LeBron James' offensive performance across his career, comparing regular season and playoff statistics. The goal is to identify whether his production changes in high-pressure playoff environments.
@@ -11,7 +10,7 @@ This project analyzes LeBron James' offensive performance across his career, com
 - Tools used: R, dplyr, tidyr, ggplot2
 
 ## Data Preparation
-```{r, fig.width=10, fig.height=4, warning=FALSE}
+```{r, fig.width=10, fig.height=4, warning=FALSE, message=FALSE,echo=FALSE}
 # Load Libraries
 library(dplyr)
 library(tidyr)
@@ -87,7 +86,7 @@ Cleaned and combined datasets to allow direct comparison between regular season 
 ## Career Performance Overview
 
 ### Regular Season Trends
-```{r, warning=FALSE}
+```{r, warning=FALSE,echo=FALSE}
 # Create regular season PTS/REB/AST trend plot
 lebrons_career <-ggplot(lebron_long, aes(x = Season, y = Value, color = Stat, group = Stat)) +
   scale_color_manual(values = c("PTS" = "#FDB927", "REB" = "#2F9E44", "AST" = "#9D4EDD"))+
@@ -106,9 +105,9 @@ lebrons_career <-ggplot(lebron_long, aes(x = Season, y = Value, color = Stat, gr
 lebrons_career
 ```
 
-This chart shows how LeBron's offensive production evolved across his career during the regular season.
+This chart shows LeBron’s points, rebounds, and assists per game across his regular season career. Scoring remains consistently elite, with LeBron averaging 25+ PPG across nearly two decades.Rebounds and assists show a slight gradual increase, but overall consistent overall. This highlights his sustained all-around production and longevity as an elite scorer, playmaker, and rebounder.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE,echo=FALSE}
 # Create playoff PTS/REB/AST trend plot
 lebrons_playoff_career <-ggplot(lebron_long_po, aes(x = Season, y = Value, color = Stat, group = Stat)) +
   scale_color_manual(values = c("PTS" = "#FDB927", "REB" = "#2F9E44", "AST" = "#9D4EDD"))+
@@ -127,13 +126,13 @@ lebrons_playoff_career <-ggplot(lebron_long_po, aes(x = Season, y = Value, color
 lebrons_playoff_career
 ```
 
-This chart shows LeBron's offensive playoff production from year to year.
+This chart shows LeBron’s points, rebounds, and assists per game across his playoff career. Scoring remains consistently elite, typically ranging between 25–34 PPG across seasons. Rebounds show slight increases in several playoff runs, while assists remain relatively stable overall. This highlights his ability to maintain high-level all-around production in the playoffs, with a particularly notable impact on the glass.
 
 ## Metric Comparison
 
 ### Points Per Game (PPG)
 
-```{r, warning=FALSE}
+```{r, warning=FALSE,echo=FALSE}
 # Builds PPG Plot
 lebron_ppg <-ggplot(lebron_combined, aes(x = Season, y = PTS, group = type)) +
   geom_line(aes(color = type), size = 2) +
@@ -157,9 +156,11 @@ lebron_ppg <-ggplot(lebron_combined, aes(x = Season, y = PTS, group = type)) +
 lebron_ppg
 ```
 
+LeBron maintains consistently elite scoring in both the regular season and playoffs, with playoff performance occasionally exceeding regular season output, though differences vary by season without a clear overall trend.
+
 ### Assists Per Game (APG)
 
-```{r, warning=FALSE}
+```{r, warning=FALSE,echo=FALSE}
 # Builds AST Plot
 lebron_ast <-ggplot(lebron_combined, aes(x = Season, y = AST, group = type)) +
   geom_line(aes(color = type), size = 2) +
@@ -184,9 +185,11 @@ lebron_ast <-ggplot(lebron_combined, aes(x = Season, y = AST, group = type)) +
 lebron_ast
 ```
 
+LeBron’s assist production remains relatively consistent between the regular season and playoffs, with minor year-to-year variation and no clear overall trend of increase or decrease.
+
 ### Rebounds Per Game (RPG)
 
-```{r, warning=FALSE}
+```{r, warning=FALSE,echo=FALSE}
 # Builds REB Plot
 lebron_rebs <-ggplot(lebron_combined, aes(x = Season, y = TRB, group = type)) +
   geom_line(aes(color = type), size = 2) +
@@ -211,9 +214,11 @@ lebron_rebs <-ggplot(lebron_combined, aes(x = Season, y = TRB, group = type)) +
 lebron_rebs
 ```
 
+LeBron’s rebounding is consistently higher in the playoffs compared to the regular season, with a clear and noticeable increase across multiple seasons.
+
 ## Points, Rebounds, Assists (PRA)
 
-```{r, warning=FALSE}
+```{r, warning=FALSE,echo=FALSE}
 # Builds PRA Plot
 lebron_pra <-ggplot(lebron_combined, aes(x = Season, y = PRA, group = type)) +
   geom_line(aes(color = type), size = 2) +
@@ -237,10 +242,12 @@ lebron_pra <-ggplot(lebron_combined, aes(x = Season, y = PRA, group = type)) +
 lebron_pra
 ```
 
+LeBron’s PRA production is comparable between the regular season and playoffs, with fluctuations across seasons but no meaningful overall change.
+
 ## Performance Differences
 To directly compare playoff and regular season performance, I created a differences data frame by subtracting regular season averages from playoff averages for each season. Positive values indicate better playoff performance, while negative values indicate lower production in the playoffs.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE,echo=FALSE}
 
 # Building the LeBron Playoff and Regular Season Data Frame
 lebron_pts_diff <- lebron_combined |>
@@ -297,7 +304,7 @@ lebron_diff$pra_difference <- lebron_diff$pra_po - lebron_diff$pra_rs
 ```
 
 ## Average Difference By Metric
-```{r}
+```{r,echo=FALSE}
 pts_diff <- mean(lebron_diff$pts_difference)
 reb_diff <-mean(lebron_reb_diff$reb_difference)
 ast_diff <-mean(lebron_diff$ast_difference)
@@ -309,7 +316,7 @@ On average, LeBron performed better in the playoffs, scoring 1.07 more points an
 To test whether these observed differences were statistically significant, I used paired t-tests comparing LeBron's regular season and playoff performance across seasons.
 
 ### Points Paired T-test
-```{r}
+```{r,echo=FALSE}
 # Running Paired T-Tests
 # Pts T-Test
 
@@ -325,7 +332,8 @@ pts_ttest <- t.test(lebron_diff$pts_difference, mu = 0)
 On average, LeBron James scores approximately 1.07 more points per game in the playoffs compared to the regular season. However, a paired t-test indicates that this difference is not statistically significant (t = 1.34, p = 0.198), indicating the increase is not consistent across seasons.
 
 ### Rebounds Paired T-test
-```{r}
+
+```{r,echo=FALSE}
 hist(lebron_diff$reb_difference,
      main = "Differences in Regular Season and Playoff Rebounds",
      xlab = "Difference in REB")
@@ -337,25 +345,29 @@ reb_ttest <- t.test(lebron_diff$reb_difference, mu = 0)
 In contrast, LeBron averages 1.24 more rebounds per game in the playoffs than in the regular season. This difference is statistically significant (t = 3.83, p = 0.001), indicating a consistent increase in rebounding performance during postseason play.
 
 ### Assists Paired T-test
-```{r}
+
+```{r,echo=FALSE}
 hist(lebron_diff$ast_difference,
      main = "Differences in Regular Season and Playoff Assists",
      xlab = "Difference in AST")
 
 ast_ttest <- t.test(lebron_diff$ast_difference, mu = 0)
 ```
+
 **Assists Interpretation:**
 
 LeBron averages 0.33 fewer assists per game in the playoffs compared to the regular season. This difference is not statistically significant (t = -1.28, p = 0.217), suggesting no consistent change in playmaking output.
 
 ### PRA Paired T-test
-```{r}
+
+```{r,echo=FALSE}
 hist(lebron_diff$pra_difference,
      main = "Differences in Regular Season and Playoff Points, Rebounds, and Assists",
      xlab = "Difference in PRA")
 
 pra_ttest <- t.test(lebron_diff$pra_difference, mu = 0)
 ```
+
 **Points, Rebounds, Assists (PRA) Interpretation:**
 
 Overall, LeBron averages 1.99 more combined points, rebounds, and assists (PRA) in the playoffs. However, this difference is not statistically significant (t = 2.03, p = 0.0587), barely missing the conventional significance threshold of α = 0.05.
@@ -372,8 +384,8 @@ Overall, the analysis shows that LeBron’s performance remains largely consiste
 ## Limitations
 While this analysis provides useful insights, several limitations should be considered:
 
-- Dataset required manual cleaning and adjustments, which may introduce mionr inconsistencies.
-- The analysis uses a relatively small sample size (~20 Seasons), limiting statistical power.
+- Data Set required manual cleaning and adjustments, which may introduce minor inconsistencies.
+- The analysis uses a relatively small sample size (~20 seasons), limiting statistical power.
 - Only used basic box score metrics (points, rebounds, assists)
 - Contextual factors such as team composition, opponent strength, and role changes were not considered
 
